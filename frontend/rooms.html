@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Inventory & Management | Verdanté Boutique Hotel</title>
+    <meta name="description" content="Manage hotel room inventory, rates, room types, and live availability at Verdanté Hotel.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- Site Header / Navbar -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-wrapper" aria-label="Verdanté Hotel Home">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <div>
+                    <span class="brand-name">Verdanté</span>
+                    <span class="brand-tagline">HOTEL & RESIDENCES</span>
+                </div>
+            </a>
+
+            <nav class="main-nav" aria-label="Main Navigation">
+                <a href="index.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Dashboard
+                </a>
+                <a href="rooms.html" class="nav-link active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Rooms
+                </a>
+                <a href="bookings.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    Bookings
+                </a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="openModal('add-room-modal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add Room
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle Mobile Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <div style="background-color: #ffffff; border-bottom: 1px solid var(--border-subtle); padding: 2rem 0;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold); font-weight: 600;">Inventory Management</div>
+                    <h1 style="font-size: 2.1rem; color: var(--primary);">Hotel Rooms & Suites</h1>
+                    <p>Manage property inventory, configure nightly rates, and monitor real-time room availability.</p>
+                </div>
+
+                <!-- Status Counter Badges -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <div class="feature-pill" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">Total: <strong id="counter-all" style="margin-left: 0.25rem;">--</strong></div>
+                    <div class="feature-pill" style="background-color: var(--status-avail-bg); color: var(--status-avail-text); font-size: 0.8rem; padding: 0.4rem 0.8rem;">Available: <strong id="counter-avail" style="margin-left: 0.25rem;">--</strong></div>
+                    <div class="feature-pill" style="background-color: var(--status-booked-bg); color: var(--status-booked-text); font-size: 0.8rem; padding: 0.4rem 0.8rem;">Booked: <strong id="counter-booked" style="margin-left: 0.25rem;">--</strong></div>
+                    <div class="feature-pill" style="background-color: var(--status-maint-bg); color: var(--status-maint-text); font-size: 0.8rem; padding: 0.4rem 0.8rem;">Maintenance: <strong id="counter-maint" style="margin-left: 0.25rem;">--</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="flex: 1; padding-top: 2rem; padding-bottom: 3rem;">
+        
+        <!-- Filter & Search Toolbar -->
+        <div class="toolbar-card">
+            <div class="filter-group">
+                <div class="search-input-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="rooms-search-input" class="form-control" placeholder="Search by room # or type...">
+                </div>
+
+                <select id="rooms-type-filter" class="form-control form-select" style="max-width: 180px;">
+                    <option value="all">All Room Types</option>
+                    <option value="Single">Single</option>
+                    <option value="Double">Double</option>
+                    <option value="Deluxe">Deluxe</option>
+                    <option value="Suite">Suite</option>
+                </select>
+
+                <select id="rooms-status-filter" class="form-control form-select" style="max-width: 180px;">
+                    <option value="all">All Statuses</option>
+                    <option value="Available">Available</option>
+                    <option value="Booked">Booked</option>
+                    <option value="Maintenance">Maintenance</option>
+                </select>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="view-toggle">
+                    <button id="view-grid-btn" class="view-toggle-btn active" title="Grid View" aria-label="Grid View">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    </button>
+                    <button id="view-table-btn" class="view-toggle-btn" title="Table View" aria-label="Table View">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    </button>
+                </div>
+
+                <button class="btn btn-primary btn-sm" onclick="openModal('add-room-modal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add Room
+                </button>
+            </div>
+        </div>
+
+        <!-- Rooms Display Container -->
+        <div id="rooms-display-container">
+            <div class="loading-spinner-wrapper">
+                <div class="spinner"></div>
+                <span>Loading room inventory...</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Add Room Modal -->
+    <div id="add-room-modal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Hotel Room</h3>
+                <button class="modal-close-btn" data-close-modal="add-room-modal" aria-label="Close">&times;</button>
+            </div>
+            <form id="add-room-form">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="add-room-number" class="form-label">Room Number *</label>
+                        <input type="text" id="add-room-number" class="form-control" placeholder="e.g. 502" required maxlength="20">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="add-room-type" class="form-label">Room Type *</label>
+                        <select id="add-room-type" class="form-control form-select" required>
+                            <option value="Single">Single Room</option>
+                            <option value="Double">Double Room</option>
+                            <option value="Deluxe">Deluxe Room</option>
+                            <option value="Suite">Presidential Suite</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="add-room-price" class="form-label">Price per Night ($ USD) *</label>
+                        <input type="number" id="add-room-price" class="form-control" placeholder="e.g. 250.00" step="0.01" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add-room-status" class="form-label">Availability Status *</label>
+                        <select id="add-room-status" class="form-control form-select" required>
+                            <option value="Available">Available</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Booked">Booked</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal="add-room-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Room</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Room Modal -->
+    <div id="edit-room-modal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Room Details</h3>
+                <button class="modal-close-btn" data-close-modal="edit-room-modal" aria-label="Close">&times;</button>
+            </div>
+            <form id="edit-room-form">
+                <input type="hidden" id="edit-room-id">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="edit-room-number" class="form-label">Room Number *</label>
+                        <input type="text" id="edit-room-number" class="form-control" required maxlength="20">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="edit-room-type" class="form-label">Room Type *</label>
+                        <select id="edit-room-type" class="form-control form-select" required>
+                            <option value="Single">Single Room</option>
+                            <option value="Double">Double Room</option>
+                            <option value="Deluxe">Deluxe Room</option>
+                            <option value="Suite">Presidential Suite</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="edit-room-price" class="form-label">Price per Night ($ USD) *</label>
+                        <input type="number" id="edit-room-price" class="form-control" step="0.01" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-room-status" class="form-label">Availability Status *</label>
+                        <select id="edit-room-status" class="form-control form-select" required>
+                            <option value="Available">Available</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Booked">Booked</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal="edit-room-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Room</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quick Book Modal -->
+    <div id="quick-book-modal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Book Selected Room</h3>
+                <button class="modal-close-btn" data-close-modal="quick-book-modal" aria-label="Close">&times;</button>
+            </div>
+            <form id="quick-book-form">
+                <input type="hidden" id="qb-room-id">
+                <input type="hidden" id="qb-price-hidden">
+                <div class="modal-body">
+                    <div style="background-color: var(--bg-subtle); padding: 0.85rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                        <strong id="qb-room-display" style="color: var(--primary);"></strong>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="qb-guest-name" class="form-label">Guest Full Name *</label>
+                        <input type="text" id="qb-guest-name" class="form-control" placeholder="e.g. Lady Marian" required minlength="2">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label for="qb-guest-email" class="form-label">Email Address *</label>
+                            <input type="email" id="qb-guest-email" class="form-control" placeholder="guest@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="qb-guest-phone" class="form-label">Phone Number *</label>
+                            <input type="tel" id="qb-guest-phone" class="form-control" placeholder="+1 (555) 000-0000" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="qb-checkin" class="form-label">Check-in Date *</label>
+                            <input type="date" id="qb-checkin" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="qb-checkout" class="form-label">Check-out Date *</label>
+                            <input type="date" id="qb-checkout" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div id="qb-cost-preview"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal="quick-book-modal">Cancel</button>
+                    <button type="submit" class="btn btn-gold">Confirm Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>
+                <span class="footer-brand">VERDANTÉ HOTEL & RESIDENCES</span> &copy; 2026. All rights reserved.
+            </div>
+            <div>
+                <span>Boutique Property Management System &bull; Node.js &bull; Express &bull; SQLite</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/rooms.js"></script>
+</body>
+</html>

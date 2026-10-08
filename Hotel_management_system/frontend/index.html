@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdanté Boutique Hotel | Management Dashboard & Reservations</title>
+    <meta name="description" content="Verdanté Hotel & Residences - Modern luxury boutique hotel room booking and property management system.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+    <!-- Site Header / Navbar -->
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand-wrapper" aria-label="Verdanté Hotel Home">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <div>
+                    <span class="brand-name">Verdanté</span>
+                    <span class="brand-tagline">HOTEL & RESIDENCES</span>
+                </div>
+            </a>
+
+            <nav class="main-nav" aria-label="Main Navigation">
+                <a href="index.html" class="nav-link active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    Dashboard
+                </a>
+                <a href="rooms.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Rooms
+                </a>
+                <a href="bookings.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    Bookings
+                </a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="openModal('new-booking-modal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    New Booking
+                </button>
+                <button class="mobile-menu-btn" aria-label="Toggle Mobile Menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Availability Search -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <div class="hero-subtitle">Boutique Hospitality & Management</div>
+                    <h1 class="hero-title">Verdanté Hotel & Residences</h1>
+                    <p class="hero-description">Experience timeless bespoke elegance and seamless reservation management. Monitor real-time room inventory, handle guest folios, and prevent double bookings.</p>
+                </div>
+                <div>
+                    <button class="btn btn-gold" onclick="openModal('add-room-modal')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Add New Room
+                    </button>
+                </div>
+            </div>
+
+            <!-- Availability Search Widget -->
+            <div class="search-widget-card">
+                <form id="dashboard-search-form" class="search-form">
+                    <div class="form-group">
+                        <label for="search-room-type" class="form-label">Room Category</label>
+                        <select id="search-room-type" class="form-control form-select">
+                            <option value="all">All Room Types</option>
+                            <option value="Single">Single Room</option>
+                            <option value="Double">Double Room</option>
+                            <option value="Deluxe">Deluxe Room</option>
+                            <option value="Suite">Presidential Suite</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search-checkin" class="form-label">Check-in Date</label>
+                        <input type="date" id="search-checkin" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search-checkout" class="form-label">Check-out Date</label>
+                        <input type="date" id="search-checkout" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" id="search-submit-btn" class="btn btn-primary" style="height: 42px; padding: 0 1.5rem;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            Find Available Rooms
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="container" style="flex: 1; padding-top: 2rem; padding-bottom: 3rem;">
+        
+        <!-- Key Statistics Section -->
+        <div id="dashboard-stats-wrapper">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <span class="stat-label">Total Inventory</span>
+                        <span id="stat-total-rooms" class="stat-value">--</span>
+                        <span class="stat-subtext">Configured property rooms</span>
+                    </div>
+                    <div class="stat-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </div>
+                </div>
+
+                <div class="stat-card avail">
+                    <div class="stat-info">
+                        <span class="stat-label">Available Today</span>
+                        <span id="stat-available-rooms" class="stat-value">--</span>
+                        <span id="stat-occupancy-rate" class="stat-subtext" style="color: var(--status-avail-text); font-weight: 600;">--</span>
+                    </div>
+                    <div class="stat-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                </div>
+
+                <div class="stat-card booked">
+                    <div class="stat-info">
+                        <span class="stat-label">Occupied / Booked</span>
+                        <span id="stat-booked-rooms" class="stat-value">--</span>
+                        <span class="stat-subtext">Active guest stays</span>
+                    </div>
+                    <div class="stat-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                </div>
+
+                <div class="stat-card gold">
+                    <div class="stat-info">
+                        <span class="stat-label">Total Reservations</span>
+                        <span id="stat-total-bookings" class="stat-value">--</span>
+                        <span id="stat-total-revenue" class="stat-subtext" style="color: var(--gold-dark); font-weight: 600;">--</span>
+                    </div>
+                    <div class="stat-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Banner -->
+        <div class="quick-actions-card">
+            <div class="quick-actions-text">
+                <h3>Verdanté Front Desk Management</h3>
+                <p>Easily manage reservations, view real-time availability, and update room assignments.</p>
+            </div>
+            <div class="quick-actions-btns">
+                <button class="btn btn-gold" onclick="openModal('new-booking-modal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    New Booking
+                </button>
+                <button class="btn btn-secondary" onclick="openModal('add-room-modal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add Room
+                </button>
+                <a href="bookings.html" class="btn btn-outline" style="border-color: rgba(255,255,255,0.4); color: #ffffff;">
+                    All Bookings &rarr;
+                </a>
+            </div>
+        </div>
+
+        <!-- Recent Bookings Section -->
+        <div class="section-header">
+            <div>
+                <h2 class="section-title">Recent Reservations</h2>
+                <div class="section-subtitle">Latest confirmed and active guest stays</div>
+            </div>
+            <a href="bookings.html" class="btn btn-sm btn-outline">View All Bookings</a>
+        </div>
+
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Folio #</th>
+                            <th>Guest Details</th>
+                            <th>Assigned Room</th>
+                            <th>Stay Period</th>
+                            <th>Total Rate</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-bookings-tbody">
+                        <tr>
+                            <td colspan="7">
+                                <div class="loading-spinner-wrapper">
+                                    <div class="spinner"></div>
+                                    <span>Loading recent reservations...</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Room Inventory Snapshot -->
+        <div class="section-header" style="margin-top: 3rem;">
+            <div>
+                <h2 class="section-title">Room Inventory Overview</h2>
+                <div class="section-subtitle">Real-time status of all hotel rooms</div>
+            </div>
+            <a href="rooms.html" class="btn btn-sm btn-outline">Manage Full Inventory &rarr;</a>
+        </div>
+
+        <div id="room-snapshot-grid" class="rooms-grid">
+            <div class="loading-spinner-wrapper" style="grid-column: 1 / -1;">
+                <div class="spinner"></div>
+                <span>Loading room inventory...</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Search Results Modal -->
+    <div id="search-results-modal" class="modal-backdrop">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Available Rooms
+                </h3>
+                <button class="modal-close-btn" data-close-modal="search-results-modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="search-results-summary" style="margin-bottom: 1.25rem; font-size: 0.9rem; color: var(--text-secondary);"></div>
+                <div id="search-results-content"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-close-modal="search-results-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Room Modal -->
+    <div id="add-room-modal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Hotel Room</h3>
+                <button class="modal-close-btn" data-close-modal="add-room-modal" aria-label="Close">&times;</button>
+            </div>
+            <form id="add-room-form">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="add-room-number" class="form-label">Room Number *</label>
+                        <input type="text" id="add-room-number" class="form-control" placeholder="e.g. 501" required>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="add-room-type" class="form-label">Room Type *</label>
+                        <select id="add-room-type" class="form-control form-select" required>
+                            <option value="Single">Single Room</option>
+                            <option value="Double">Double Room</option>
+                            <option value="Deluxe">Deluxe Room</option>
+                            <option value="Suite">Presidential Suite</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="add-room-price" class="form-label">Price per Night ($ USD) *</label>
+                        <input type="number" id="add-room-price" class="form-control" placeholder="e.g. 250.00" step="0.01" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add-room-status" class="form-label">Initial Status *</label>
+                        <select id="add-room-status" class="form-control form-select" required>
+                            <option value="Available">Available</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Booked">Booked</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal="add-room-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Room</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- New Booking Modal -->
+    <div id="new-booking-modal" class="modal-backdrop">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Create Guest Reservation</h3>
+                <button class="modal-close-btn" data-close-modal="new-booking-modal" aria-label="Close">&times;</button>
+            </div>
+            <form id="new-booking-form">
+                <div class="modal-body">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="book-room-id" class="form-label">Select Room *</label>
+                        <select id="book-room-id" class="form-control form-select" required>
+                            <option value="">Loading rooms...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="book-guest-name" class="form-label">Guest Full Name *</label>
+                        <input type="text" id="book-guest-name" class="form-control" placeholder="e.g. Eleanor Vance" required minlength="2">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label for="book-guest-email" class="form-label">Email Address *</label>
+                            <input type="email" id="book-guest-email" class="form-control" placeholder="guest@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="book-guest-phone" class="form-label">Phone Number *</label>
+                            <input type="tel" id="book-guest-phone" class="form-control" placeholder="+1 (555) 000-0000" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label for="book-checkin" class="form-label">Check-in Date *</label>
+                            <input type="date" id="book-checkin" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="book-checkout" class="form-label">Check-out Date *</label>
+                            <input type="date" id="book-checkout" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div id="booking-cost-preview"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal="new-booking-modal">Cancel</button>
+                    <button type="submit" class="btn btn-gold">Confirm Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div>
+                <span class="footer-brand">VERDANTÉ HOTEL & RESIDENCES</span> &copy; 2026. All rights reserved.
+            </div>
+            <div>
+                <span>Boutique Property Management System &bull; Node.js &bull; Express &bull; SQLite</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

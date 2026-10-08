@@ -1,0 +1,204 @@
+/* ==========================================================================
+   VERDANTÉ HOTEL & RESIDENCES - RESPONSIVE STYLESHEET
+   ========================================================================== */
+
+/* Tablet and below (max-width: 992px) */
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+    }
+
+    .hero-title {
+        font-size: 2.15rem;
+    }
+
+    .quick-actions-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .quick-actions-btns {
+        width: 100%;
+    }
+
+    .quick-actions-btns .btn {
+        flex: 1;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile Devices (max-width: 768px) */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .header-inner {
+        height: 64px;
+    }
+
+    .brand-name {
+        font-size: 1.15rem;
+    }
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    /* Mobile Drawer Menu */
+    .main-nav {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-surface);
+        border-bottom: 1px solid var(--border-medium);
+        box-shadow: var(--shadow-lg);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem;
+        gap: 0.5rem;
+        transform: translateY(-120%);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform var(--transition-normal), opacity var(--transition-normal), visibility var(--transition-normal);
+        z-index: 999;
+    }
+
+    .main-nav.mobile-open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border-radius: var(--radius-sm);
+    }
+
+    .header-actions .btn {
+        padding: 0.45rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .hero-section {
+        padding: 2rem 0;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .search-form {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+
+    .stat-card {
+        padding: 1.2rem;
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+    }
+
+    .toolbar-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-input-wrapper {
+        max-width: 100%;
+        min-width: 100%;
+    }
+
+    .rooms-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .custom-table th, 
+    .custom-table td {
+        padding: 0.75rem 0.85rem;
+        font-size: 0.8rem;
+    }
+
+    .modal-dialog {
+        max-height: 95vh;
+        border-radius: var(--radius-md);
+    }
+
+    .modal-body {
+        padding: 1.2rem;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+    }
+
+    .folio-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .toast-container {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        max-width: none;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+}
+
+/* Small Phones (max-width: 480px) */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.55rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .quick-actions-btns {
+        flex-direction: column;
+    }
+
+    .table-actions {
+        flex-wrap: wrap;
+    }
+}
